@@ -1,53 +1,117 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log Pose</title>
-    <link rel="stylesheet" href="css/estilo.css">
-    <link rel="icon" href="assets/icon/gomu_icon-removebg-preview.png">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AquaTech | Cadastro</title>
+  <script src="./js/sessao.js"></script>
+  <link rel="stylesheet" href="./css/estiloantigo.css" />
+  <link rel="icon" href="./assets/icon/favicon2.ico" />
 </head>
- <header class="header">
-    <div class="container">
-      <h1 class="titulo">Log Pose</h1>
-      <nav class="navbar">
-        <ul>
-          <li class="ativo"><a href="#">Ilha Inicial</a></li>
-          <li><a href="catalogo.html">Catálogo</a></li>
-          <li>|</li>
-          <li><a href="login.html">Login</a></li>
-          <li><a href="cadastro.html">Cadastro</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
 <body>
-    <div class="main-cadastro">
-        <div class="cadastro-esquerdo">
-            <h1>Cadastre-se em nosso site<br>e entre para nossa tripulação </h1>
-        </div>
-        <div class="cadastro-direito">
-            <div class="card-cadastro">
-                <h1>Cadastro</h1>
-                <div class="text-field">
-                    <label for="usuario">Usuário</label>
-                    <input type="text" id="ipt_usuario" placeholder="usuário">
-                </div>
-                <div class="text-field">
-                    <label for="email">Email</label>
-                    <input type="text" id="ipt_email" placeholder="email">
-                </div>
-                <div class="text-field">
-                    <label for="senha">Senha</label>
-                    <input type="password" id="ipt_senha" placeholder="senha">
-                </div>
-                <div class="text-field">
-                    <label for="senha">Confirme sua senha</label>
-                    <input type="password" id="ipt_csenha" placeholder="confirme sua senha">
-                </div>
-                <button class="btn-cadastro">Cadastre-se</button>
-            </div>
-        </div>
+  <div class="header">
+    <div class="container">
+      <h1 class="titulo">AquaTech</h1>
+      <ul class="navbar">
+        <li><a href="index.html">Inicial</a></li>
+        <li><a href="simulador.html">Simulador</a></li>
+        <li>|</li>
+        <li><a href="login.html">Login</a></li>
+        <li class="agora"><a href="#">Cadastro</a></li>
+      </ul>
     </div>
+  </div>
+
+  <div class="login">
+    <div class="alerta_erro">
+      <div class="card_erro" id="cardErro">
+        <span id="mensagem_erro"></span>
+      </div>
+    </div>
+    <div class="container">
+      <div class="card card-cadastro">
+        <h2>Bem-vindo!</h2>
+        <div class="formulario">
+          <div class="campo">
+            <span>Nome:</span>
+            <input id="nome_input" type="text" placeholder="Seu nome" />
+          </div>
+          <div class="campo">
+            <span>E-mail:</span>
+            <input id="email_input" type="email" placeholder="meuemail@provedor.com" />
+          </div>
+          <div class="campo">
+            <span>Senha:</span>
+            <input id="senha_input" type="password" placeholder="******" />
+          </div>
+          <div class="campo">
+            <span>Confirmação da Senha:</span>
+            <input id="confirmacao_senha_input" type="password" placeholder="******" />
+          </div>
+          <button class="botao" onclick="cadastrar()">Cadastrar</button>
+        </div>
+        <div id="div_aguardar" class="loading-div">
+          <img src="./assets/circle-loading.gif" id="loading-gif" />
+        </div>
+        <div id="div_erros_login"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="container">
+      <h4>Feito com amor por aluno ♥ SPTech © 2023</h4>
+      <span class="version">v1.0.0</span>
+    </div>
+  </div>
 </body>
-</html>
+
+<script>
+function cadastrar() {
+  aguardar();
+  const nomeVar = document.getElementById('nome_input').value.trim();
+  const emailVar = document.getElementById('email_input').value.trim();
+  const senhaVar = document.getElementById('senha_input').value;
+  const confirmacaoSenhaVar = document.getElementById('confirmacao_senha_input').value;
+
+  if (!nomeVar || !emailVar || !senhaVar || !confirmacaoSenhaVar) {
+    cardErro.style.display = 'block';
+    mensagem_erro.innerText = 'Preencha todos os campos';
+    finalizarAguardar();
+    setTimeout(sumirMensagem, 5000);
+    return false;
+  }
+  if (senhaVar !== confirmacaoSenhaVar) {
+    cardErro.style.display = 'block';
+    mensagem_erro.innerText = 'As senhas não coincidem';
+    finalizarAguardar();
+    setTimeout(sumirMensagem, 5000);
+    return false;
+  }
+
+  fetch('/usuarios/cadastrar', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nomeServer: nomeVar, emailServer: emailVar, senhaServer: senhaVar })
+  })
+  .then(async res => {
+    if (!res.ok) throw await res.text();
+    cardErro.style.display = 'block';
+    mensagem_erro.innerText = 'Cadastro realizado! ✅ Redirecionando para login...';
+    setTimeout(() => window.location = 'login.html', 2000);
+    limparFormulario();
+    finalizarAguardar();
+  })
+  .catch(err => {
+    console.error(err);
+    cardErro.style.display = 'block';
+    mensagem_erro.innerText = err || 'Erro no cadastro';
+    finalizarAguardar();
+    setTimeout(sumirMensagem, 5000);
+  });
+
+  return false;
+}
+
+function sumirMensagem() { cardErro.style.display = 'none'; }
+</script>
