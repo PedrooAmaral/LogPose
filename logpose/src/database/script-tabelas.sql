@@ -1,62 +1,55 @@
--- Arquivo de apoio, caso você queira criar tabelas como as aqui criadas para a API funcionar.
--- Você precisa executar os comandos no banco de dados para criar as tabelas,
--- ter este arquivo aqui não significa que a tabela em seu BD estará como abaixo!
+CREATE DATABASE logpose;
+USE logpose;
 
-/*
-comandos para mysql server
-*/
-
-CREATE DATABASE aquatech;
-
-USE aquatech;
-
-CREATE TABLE empresa (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	razao_social VARCHAR(50),
-	cnpj CHAR(14),
-	codigo_ativacao VARCHAR(50)
+CREATE TABLE usuarios (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL UNIQUE,
+  senha VARCHAR(255) NOT NULL,
+  criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE usuario (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50),
-	email VARCHAR(50),
-	senha VARCHAR(50),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+CREATE TABLE frutas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  type VARCHAR(50) NOT NULL,
+  description TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE aviso (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	titulo VARCHAR(100),
-	descricao VARCHAR(150),
-	fk_usuario INT,
-	FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
+CREATE TABLE sagas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(150) NOT NULL,
+  description TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-create table aquario (
-/* em nossa regra de negócio, um aquario tem apenas um sensor */
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	descricao VARCHAR(300),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+CREATE TABLE quiz_questions (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  question TEXT NOT NULL,
+  options_json JSON NOT NULL,
+  answer_index INT NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-/* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
-
-create table medida (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	dht11_umidade DECIMAL,
-	dht11_temperatura DECIMAL,
-	luminosidade DECIMAL,
-	lm35_temperatura DECIMAL,
-	chave TINYINT,
-	momento DATETIME,
-	fk_aquario INT,
-	FOREIGN KEY (fk_aquario) REFERENCES aquario(id)
+CREATE TABLE quiz_results (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  score INT NOT NULL,
+  total_questions INT NOT NULL,
+  feita_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 1', 'ED145B');
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 2', 'A1B2C3');
-insert into aquario (descricao, fk_empresa) values ('Aquário de Estrela-do-mar', 1);
-insert into aquario (descricao, fk_empresa) values ('Aquário de Peixe-dourado', 2);
+INSERT INTO frutas (name, type, description) VALUES
+('Gomu Gomu no Mi', 'Paramecia', 'Fruta que torna o corpo de Luffy elástico.');
+
+INSERT INTO sagas (title, description) VALUES
+('East Blue', 'Saga inicial onde Luffy monta sua tripulação.');
+
+INSERT INTO quiz_questions (question, options_json, answer_index) VALUES
+('Quem é o capitão dos Chapéus de Palha?', JSON_ARRAY('Luffy','Zoro','Sanji'), 0),
+('Qual fruta Luffy comeu?', JSON_ARRAY('Gomu Gomu','Mera Mera','Hana Hana'), 0),
+('Em qual saga Robin se junta à tripulação?', JSON_ARRAY('Alabasta','Enies Lobby','Dressrosa'), 1),
+('Quem construiu o Thousand Sunny?', JSON_ARRAY('Franky','Usopp','Chopper'), 0),
+('Qual o sonho de Zoro?', JSON_ARRAY('Ser Rei dos Piratas','Ser melhor espadachim','Ser médico'), 1);

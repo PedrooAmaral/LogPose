@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>LogPose | Frutas</title>
+  <link rel="stylesheet" href="css/common.css"/><link rel="stylesheet" href="css/fruits.css"/>
+  <script src="js/include.js" defer></script><script src="js/auth.js" defer></script>
+</head>
+<body>
+  <div data-include="components/header.html"></div>
+  <main class="fruits-page">
+    <h2>Frutas do Diabo</h2>
+    <div id="fruits-list" class="grid"></div>
+  </main>
+  <div data-include="components/footer.html"></div>
+  <script>
+    async function loadFruits() {
+      const res = await fetch('/api/fruits');
+      const data = await res.json();
+      const c = document.getElementById('fruits-list');
+      data.forEach(f => {
+        const d = document.createElement('div');
+        d.className = 'card';
+        d.innerHTML = `<h3>${f.name}</h3><p><strong>Tipo:</strong> ${f.type}</p><p>${f.description}</p>`;
+        c.appendChild(d);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', loadFruits);
+  </script>
+</body>
+</html>
