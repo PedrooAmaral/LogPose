@@ -1,45 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log Pose</title>
-    <link rel="stylesheet" href="css/estilo.css">
-    <link rel="icon" href="assets/icon/gomu_icon-removebg-preview.png">
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>LogPose | Login</title>
+  <link rel="stylesheet" href="css/common.css"/>
+  <link rel="stylesheet" href="css/login.css"/>
+  <script src="js/include.js" defer></script>
+  <script src="js/auth.js" defer></script>
+  <script src="js/sessao.js" defer></script>
 </head>
- <header class="header">
-    <div class="container">
-      <h1 class="titulo">Log Pose</h1>
-      <nav class="navbar">
-        <ul>
-          <li class="ativo"><a href="#">Ilha Inicial</a></li>
-          <li><a href="catalogo.html">Catálogo</a></li>
-          <li>|</li>
-          <li><a href="login.html">Login</a></li>
-          <li><a href="cadastro.html">Cadastro</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
 <body>
-    <div class="main-cadastro">
-        <div class="cadastro-esquerdo">
-            <h1>Já é um dos nossos? Faça o login e prepare-se para zarpar!</h1>
-        </div>
-        <div class="cadastro-direito">
-            <div class="card-cadastro">
-                <h1>Login</h1>
-                <div class="text-field">
-                    <label for="usuario">Usuário</label>
-                    <input type="text" id="ipt_usuario" placeholder="usuário">
-                </div>
-                <div class="text-field">
-                    <label for="usuario">Senha</label>
-                    <input type="text" id="ipt_usuario" placeholder="usuário">
-                </div>
-                <button class="btn-cadastro">Logar</button>
-            </div>
-        </div>
+  <div data-include="components/header.html"></div>
+  <main class="login-page">
+    <div class="card login-card">
+      <h2>Login</h2>
+      <form onsubmit="return entrar()">
+        <label for="email_input">E-mail</label>
+        <input id="email_input" type="email"/>
+        <label for="senha_input">Senha</label>
+        <input id="senha_input" type="password"/>
+        <button type="submit" class="button">Entrar</button>
+      </form>
+      <div class="card_erro" id="mensagem_erro" style="display:none;"></div>
     </div>
+  </main>
+  <div data-include="components/footer.html"></div>
 </body>
 </html>
