@@ -1,0 +1,105 @@
+/* ========================== */
+/*  IMPORTAÇÃO DE FONTES       */
+/* ========================== */
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;700;900&display=swap');
+
+/* ========================== */
+/*  ESTILO GERAL DA DASHBOARD */
+/* ========================== */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Barlow', sans-serif;
+  background-color: #001f3f;
+  background-image: url('../assets/imgs/luffy_sorrindo.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  color: white;
+  backdrop-filter: brightness(0.5);
+}
+
+.dashboard-container {
+  padding: 40px 20px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.titulo-logpose {
+  font-size: 3rem;
+  color: #ffc72c;
+  margin-bottom: 30px;
+}
+
+.btn-sair {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  background-color: #ffc72c;
+  color: #003366;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-sair:hover {
+  background-color: #e0b020;
+}
+
+.kpi-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.kpi-card {
+  background-color: #002244;
+  color: #fff;
+  padding: 30px 60px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.kpi-card h2 {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.kpi-valor {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.graficos-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.grafico-card {
+  background-color: #002244;
+  color: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  width: 420px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.grafico-card h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+canvas {
+  max-width: 100%;
+  height: auto;
+}

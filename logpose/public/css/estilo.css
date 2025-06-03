@@ -175,3 +175,38 @@ body {
     margin-bottom: 20px;
     text-align: justify;
 }
+.logo-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.logo-titulo img {
+  width: 40px;
+  height: auto;
+}
+.titulo-logpose {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #ffc72c;
+  margin: 0;
+}
+.logo-logpose {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-logpose .logo-img {
+  height: 36px;
+}
+
+.logo-logpose .titulo-logpose {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #ffc72c;
+  margin: 0;
+}
