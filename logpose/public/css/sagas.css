@@ -1,0 +1,44 @@
+.sagas-list li {
+  background-color: #212124;
+  border-left: 5px solid #e6005a;
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap; /* deixa responsivo para telas menores */
+}
+
+.saga-img {
+  width: 100%;
+  max-width: 320px; /* pode ajustar para maior se quiser */
+  height: auto;
+  border-radius: 8px;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+.sagas-container {
+  flex: 1;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.sagas-content {
+  max-width: 1000px;
+  width: 100%;
+}
+
+.titulo-sagas {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #e3b062;
+}
+
+.footer{
+  justify-content: center;
+}

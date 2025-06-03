@@ -1,38 +1,21 @@
-var mysql = require("mysql2");
+// src/database/config.js
 
-// CONEXÃO DO BANCO MYSQL SERVER
-var mySqlConfig = {
-    host: localhost,
-    database: 'logpose',
-    user: 'root',
-    password: 'Urs@',
-    port: 3306
-};
+const mysql = require("mysql2/promise");
+const dotenv = require("dotenv");
+const path = require("path");
 
-function executar(instrucao) {
+// Carrega .env.dev que está UM NÍVEL acima desta pasta “src/database”
+dotenv.config({ path: path.resolve(__dirname, "..", "..", ".env.dev") });
 
-    if (process.env.AMBIENTE_PROCESSO !== "producao" && process.env.AMBIENTE_PROCESSO !== "desenvolvimento") {
-        console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM .env OU dev.env OU app.js\n");
-        return Promise.reject("AMBIENTE NÃO CONFIGURADO EM .env");
-    }
+const pool = mysql.createPool({
+  host:     process.env.DB_HOST, 
+  database: process.env.DB_DATABASE, 
+  user:     process.env.DB_USER, 
+  password: process.env.DB_PASSWORD, 
+  port:     parseInt(process.env.DB_PORT, 10),
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
 
-    return new Promise(function (resolve, reject) {
-        var conexao = mysql.createConnection(mySqlConfig);
-        conexao.connect();
-        conexao.query(instrucao, function (erro, resultados) {
-            conexao.end();
-            if (erro) {
-                reject(erro);
-            }
-            console.log(resultados);
-            resolve(resultados);
-        });
-        conexao.on('error', function (erro) {
-            return ("ERRO NO MySQL SERVER: ", erro.sqlMessage);
-        });
-    });
-}
-
-module.exports = {
-    executar
-};
+module.exports = pool;

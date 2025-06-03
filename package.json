@@ -1,0 +1,15 @@
+{
+  "name": "logpose",
+  "version": "1.0.0",
+  "main": "logpose/app.js",
+  "scripts": {
+    "start": "node logpose/app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^2.3.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "bcrypt": "^5.0.1"
+  }
+}
