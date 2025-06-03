@@ -56,3 +56,42 @@
   </div>
 </body>
 </html>
+<script>
+function entrar() {
+  const email = document.getElementById('email_input').value;
+  const senha = document.getElementById('senha_input').value;
+  const erro = document.getElementById('mensagem_erro');
+
+  if (!email || !senha) {
+    erro.innerText = "Preencha todos os campos.";
+    return;
+  }
+
+  fetch("http://localhost:3334/usuarios/autenticar", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      emailServer: email,
+      senhaServer: senha
+    })
+  }).then(async res => {
+    if (res.ok) {
+      const user = await res.json();
+      sessionStorage.ID_USUARIO = user.id;
+      sessionStorage.NOME_USUARIO = user.nome;
+      sessionStorage.EMAIL_USUARIO = user.email;
+
+      // Redireciona para a dashboard
+      window.location.href = "dashboard.html";
+    } else if (res.status === 401) {
+      erro.innerText = "E-mail ou senha incorretos.";
+    } else {
+      erro.innerText = "Erro no servidor. Tente novamente.";
+    }
+  }).catch(() => {
+    erro.innerText = "Não foi possível conectar ao servidor.";
+  });
+}
+</script>

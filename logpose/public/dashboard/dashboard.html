@@ -13,16 +13,16 @@
 
 <body>
   <div class="dashboard-container">
-    <button class="btn-sair" onclick="window.location.href='index.html'">Sair</button>
+    <button class="btn-sair" onclick="window.location.href='../index.html'">Sair</button>
     <div class="logo-titulo">
     <img src="../assets/icon/gomu_icon-removebg-preview.png" alt="Logo Log Pose">
     <h1 class="titulo-logpose">LogPose</h1>
     </div>
 
     <div class="kpi-container">
-      <div class="kpi-card">
+      <div class="kpi-card" id="cardUsuarios">
         <h2>Total de Usuários Cadastrados</h2>
-        <p class="kpi-valor">42</p>
+        <p class="kpi-valor" id="totalUsuarios">42</p>
       </div>
     </div>
 
@@ -110,7 +110,18 @@
         }
       }
     });
+    window.addEventListener('DOMContentLoaded', () => {
+  fetch("http://localhost:3334/usuarios/count")
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("totalUsuarios").innerText = data.total;
+    })
+    .catch(err => {
+      console.error("Erro ao buscar total de usuários:", err);
+      document.getElementById("totalUsuarios").innerText = "Erro";
+    });
+});
+
   </script>
 </body>
-
 </html>

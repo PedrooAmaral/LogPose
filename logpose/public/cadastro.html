@@ -63,3 +63,41 @@
   </div>
 </body>
 </html>
+<script>
+function cadastrar() {
+  const nome = document.getElementById('nome_input').value;
+  const email = document.getElementById('email_input').value;
+  const senha = document.getElementById('senha_input').value;
+  const confirmacao = document.getElementById('confirmacao_senha_input').value;
+  const divErro = document.getElementById("div_erros_login");
+  const spanErro = document.getElementById("mensagem_erro");
+
+  if (senha !== confirmacao) {
+    spanErro.innerText = "As senhas não coincidem!";
+    divErro.style.display = "block";
+    return;
+  }
+
+  fetch("http://localhost:3333/usuarios/cadastrar", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      nomeServer: nome,
+      emailServer: email,
+      senhaServer: senha
+    })
+  }).then(res => {
+    if (res.ok) {
+      window.location.href = "login.html";
+    } else {
+      spanErro.innerText = "Erro ao cadastrar. Tente outro email.";
+      divErro.style.display = "block";
+    }
+  }).catch(() => {
+    spanErro.innerText = "Erro de conexão com o servidor.";
+    divErro.style.display = "block";
+  });
+} 
+</script>

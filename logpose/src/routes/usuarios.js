@@ -52,4 +52,14 @@ router.get("/count", async (req, res) => {
   }
 });
 
+router.get("/count", async function (req, res) {
+  try {
+    const [linhas] = await db.execute("SELECT COUNT(*) AS total FROM usuarios");
+    res.json(linhas[0]);
+  } catch (erro) {
+    console.error("ERRO AO CONTAR USUÁRIOS:", erro);
+    res.status(500).json({ erro: "Erro ao contar usuários" });
+  }
+});
+
 module.exports = router;
