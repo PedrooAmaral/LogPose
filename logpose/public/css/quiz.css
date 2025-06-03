@@ -1,0 +1,167 @@
+/* ==========================
+   IMPORTAÇÃO DE FONTES
+   ========================== */
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;700;900');
+
+/* ==========================
+   ESTILO GERAL DO QUIZ
+   ========================== */
+body {
+    margin: 0;
+    font-family: 'Barlow', Arial, sans-serif;
+    background-color: #001f3f;
+    color: #fff;
+}
+
+#pontuacaoEJogo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#pontuacao {
+    background-color: #003366;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+}
+
+#jogo {
+    background-color: #002244;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+}
+
+.padding-8 {
+    padding: 8px 0;
+}
+
+.option {
+    margin-left: 10px;
+    font-weight: 500;
+}
+
+input[type="radio"] {
+    accent-color: #ffc72c;
+    transform: scale(1.3);
+}
+
+button {
+    background-color: #ffc72c;
+    color: #003366;
+    font-weight: bold;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #e0b020;
+}
+
+.text-success-with-bg {
+    background-color: #28a745;
+    color: white;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.text-danger-with-bg {
+    background-color: #dc3545;
+    color: white;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.text-warning-with-bg {
+    background-color: #ffc107;
+    color: #212124;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.text-new-gray {
+    color: #c4c2bd;
+}
+
+/* ==========================
+   NAVBAR ESTILO
+   ========================== */
+.header {
+    background-color: #003366;
+    padding: 15px 0;
+    margin-bottom: 30px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.titulo {
+    font-size: 2rem;
+    color: #ffc72c;
+    margin: 0;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.navbar .ativo a {
+    color: #ffc72c;
+}
+
+/* ==========================
+   RESPONSIVO
+   ========================== */
+@media screen and (max-width: 768px) {
+    #pontuacaoEJogo {
+        padding: 20px;
+    }
+
+    #jogo, #pontuacao {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
