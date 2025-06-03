@@ -1,26 +1,63 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>LogPose | Cadastro</title>
-  <link rel="stylesheet" href="css/common.css"/><link rel="stylesheet" href="css/cadastro.css"/>
-  <script src="js/include.js" defer></script><script src="js/auth.js" defer></script><script src="js/sessao.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log Pose | Cadastro</title>
+  <link rel="stylesheet" href="css/estilo.css" />
+  <link rel="icon" href="assets/icon/gomu_icon-removebg-preview.png" />
+  <script src="js/sessao.js" defer></script>
 </head>
 <body>
-  <div data-include="components/header.html"></div>
-  <main class="register-page">
-    <div class="card register-card">
-      <h2>Cadastro</h2>
-      <form onsubmit="return cadastrar()">
-        <label>Nome</label><input id="nome_input" type="text"/>
-        <label>E-mail</label><input id="email_input" type="email"/>
-        <label>Senha</label><input id="senha_input" type="password"/>
-        <label>Confirmação</label><input id="confirmacao_senha_input" type="password"/>
-        <button type="submit" class="button">Cadastrar</button>
-      </form>
-      <div class="card_erro" id="mensagem_erro" style="display:none;"></div>
+  <header class="header">
+    <div class="container">
+      <h1 class="titulo">Log Pose</h1>
+      <nav class="navbar">
+        <ul>
+          <li><a href="index.html">Ilha Inicial</a></li>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="sagas.html">Sagas</a></li>
+          <li><a href="quiz.html">Quiz</a></li>
+          <li>|</li>
+          <li><a href="login.html">Login</a></li>
+          <li class="ativo"><a href="cadastro.html">Cadastro</a></li>
+        </ul>
+      </nav>
     </div>
-  </main>
-  <div data-include="components/footer.html"></div>
+  </header>
+
+  <div class="main-cadastro">
+    <div class="cadastro-esquerdo">
+      <h1>Cadastre-se em nosso site<br>e entre para nossa tripulação</h1>
+    </div>
+    <div class="cadastro-direito">
+      <div class="card-cadastro">
+        <h1>Cadastro</h1>
+        <div class="text-field">
+          <label for="nome_input">Nome</label>
+          <input type="text" id="nome_input" placeholder="seu nome completo" />
+        </div>
+        <div class="text-field">
+          <label for="email_input">Email</label>
+          <input type="email" id="email_input" placeholder="seuemail@provedor.com" />
+        </div>
+        <div class="text-field">
+          <label for="senha_input">Senha</label>
+          <input type="password" id="senha_input" placeholder="senha" />
+        </div>
+        <div class="text-field">
+          <label for="confirmacao_senha_input">Confirme sua senha</label>
+          <input type="password" id="confirmacao_senha_input" placeholder="confirme sua senha" />
+        </div>
+        <button class="btn-cadastro" onclick="cadastrar()">Cadastre-se</button>
+        <div class="card_erro" id="div_erros_login">
+          <span id="mensagem_erro"></span>
+        </div>
+        <div id="div_aguardar" class="loading-div">
+          
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

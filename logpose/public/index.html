@@ -1,25 +1,53 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>LogPose | Home</title>
-  <link rel="stylesheet" href="css/common.css"/><link rel="stylesheet" href="css/index.css"/>
-  <script src="js/include.js" defer></script><script src="js/auth.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Log Pose - Ilha Inicial</title>
+  <link rel="stylesheet" href="css/estilo.css"/>
+  <link rel="icon" href="assets/icon/gomu_icon-removebg-preview.png"/>
 </head>
 <body>
-  <div data-include="components/header.html"></div>
-  <main class="home-page">
-    <section class="intro">
-      <h1>One Piece</h1>
-      <p>Em um mundo de piratas, vingança e tesouros lendários, Monkey D. Luffy e sua tripulação navegam pelo Grand Line em busca do maior tesouro de todos: o One Piece.</p>
-    </section>
-    <section class="grid-links">
-      <a href="fruits.html" class="card"><h3>Frutas</h3></a>
-      <a href="sagas.html" class="card"><h3>Sagas</h3></a>
-      <a href="quiz.html" class="card auth-only"><h3>Quiz</h3></a>
-      <a href="dashboard.html" class="card auth-only"><h3>Dashboard</h3></a>
-    </section>
+  <header class="header">
+    <div class="container">
+      <h1 class="titulo">Log Pose</h1>
+      <nav class="navbar">
+        <ul>
+          <li class="ativo"><a href="index.html">Ilha Inicial</a></li>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li>|</li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="cadastro.html">Cadastro</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-home">
+    <section class="main-home">
+  <div class="home-content">
+    <h2>Bem-vindo à Grand Line!</h2>
+    <p>Descubra ilhas misteriosas, recrute sua tripulação e<br> encontre o tesouro mais procurado de todos: o One Piece!</p>
+    <a href="catalogo.html" class="btn-explorar">Explorar Catálogo</a>
+  </div>
+</section>
+
+    <section class="secao-contexto">
+  <div class="contexto-container">
+    <h2>O que é One Piece?</h2>
+    <p>
+      *One Piece* é uma das obras mais populares da história dos mangás e animes. Criada por <strong>Eiichiro Oda</strong>, a história acompanha o jovem <strong>Monkey D. Luffy</strong>, um pirata com o poder de esticar o corpo como borracha após comer a fruta do diabo chamada Gomu Gomu no Mi.
+    </p>
+    <p>
+      Seu objetivo é encontrar o <strong>maior tesouro do mundo, o One Piece</strong>, deixado pelo lendário Rei dos Piratas, Gol D. Roger. Ao longo da jornada, Luffy reúne uma tripulação diversa e viaja por mares perigosos enfrentando inimigos poderosos, descobrindo ilhas únicas e desvendando mistérios sobre o governo mundial, os revolucionários e a história perdida do mundo.
+    </p>
+    <p>
+      A obra é marcada por seu universo rico, temas profundos como liberdade e justiça, e personagens carismáticos que evoluem com o tempo.
+    </p>
+  </div>
+</section>
+
+    <div class="home-img"></div>
   </main>
-  <div data-include="components/footer.html"></div>
 </body>
 </html>

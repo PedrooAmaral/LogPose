@@ -2,7 +2,7 @@ var mysql = require("mysql2");
 
 // CONEXÃO DO BANCO MYSQL SERVER
 var mySqlConfig = {
-    host: 'localhost',
+    host: localhost,
     database: 'logpose',
     user: 'root',
     password: 'Urs@',
