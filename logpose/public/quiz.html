@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,14 +8,13 @@
   <link rel="stylesheet" href="css/estilo.css" />
   <link rel="icon" href="assets/icon/gomu_icon-removebg-preview.png" />
 </head>
-
 <body>
   <header class="header">
     <div class="container">
-    <div class="logo-titulo">
-    <img src="assets/icon/gomu_icon-removebg-preview.png" alt="Logo Log Pose">
-    <h1 class="titulo-logpose">LogPose</h1>
-    </div>
+      <div class="logo-titulo">
+        <img src="assets/icon/gomu_icon-removebg-preview.png" alt="Logo Log Pose">
+        <h1 class="titulo-logpose">LogPose</h1>
+      </div>
       <nav class="navbar">
         <ul>
           <li><a href="index.html">Ilha Inicial</a></li>
@@ -61,7 +59,6 @@
       </div>
       <div id="botoes" class="flex-colunar padding-8">
         <button onclick="submeter()" id="btnSubmeter">Submeter resposta</button>
-        <button onclick="avancar()" id="btnProx" disabled>Avançar para próxima questão</button>
         <button onclick="tentarNovamente()" id="btnTentarNovamente" disabled>Tentar novamente</button>
       </div>
     </div>
@@ -82,7 +79,6 @@
     ];
 
     let numeroDaQuestaoAtual = 0;
-    let pontuacaoFinal = 0;
     let certas = 0;
     let erradas = 0;
     const quantidadeDeQuestoes = listaDeQuestoes.length;
@@ -111,38 +107,34 @@
       const correta = listaDeQuestoes[numeroDaQuestaoAtual].alternativaCorreta;
 
       if (selecionada.value === correta) {
-        document.getElementById(selecionada.labels[0].id).classList.add("text-success-with-bg");
         certas++;
       } else {
-        document.getElementById(selecionada.labels[0].id).classList.add("text-danger-with-bg");
-        document.getElementById(listaDeQuestoes[numeroDaQuestaoAtual].alternativaCorreta.replace("alternativa", "labelOpcao")).classList.add("text-success-with-bg");
         erradas++;
       }
+      const idUsuario = sessionStorage.ID_USUARIO;
+      const numeroQuestao = numeroDaQuestaoAtual + 1; // Questão atual (1 a 10)
+
+      fetch("http://localhost:3334/api/quiz/responder", {
+      method: "POST",
+      headers: {
+      "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+      fk_usuario: idUsuario,
+      questao: numeroQuestao,
+      acertou: selecionada.value === correta ? 1 : 0
+  })
+});
 
       document.getElementById("spanCertas").innerText = certas;
       document.getElementById("spanErradas").innerText = erradas;
 
-      document.getElementById("btnSubmeter").disabled = true;
-      document.getElementById("btnProx").disabled = false;
-    }
-
-    function avancar() {
       numeroDaQuestaoAtual++;
-      document.getElementById("btnSubmeter").disabled = false;
-      document.getElementById("btnProx").disabled = true;
-      limparCores();
-
       if (numeroDaQuestaoAtual < quantidadeDeQuestoes) {
         preencherHTMLcomQuestaoAtual(numeroDaQuestaoAtual);
       } else {
         finalizarJogo();
       }
-    }
-
-    function limparCores() {
-      ["labelOpcaoUm", "labelOpcaoDois", "labelOpcaoTres", "labelOpcaoQuatro"].forEach(id => {
-        document.getElementById(id).classList.remove("text-success-with-bg", "text-danger-with-bg");
-      });
     }
 
     function finalizarJogo() {
@@ -151,6 +143,21 @@
       document.getElementById("msgFinal").innerHTML = `${msg}<br>Você acertou ${perc}% das questões.`;
       document.getElementById("spanPontuacaoFinal").innerText = certas;
       document.getElementById("btnTentarNovamente").disabled = false;
+
+      const idUsuario = sessionStorage.ID_USUARIO;
+
+      fetch("http://localhost:3334/api/quiz/registrar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fk_usuario: idUsuario,
+          acertos: certas,
+          erros: erradas
+        })
+      })
+      .then(res => res.json())
+      .then(data => console.log(data.mensagem))
+      .catch(err => console.error("Erro ao registrar pontuação:", err));
     }
 
     function tentarNovamente() {
@@ -160,5 +167,4 @@
     window.onload = () => preencherHTMLcomQuestaoAtual(0);
   </script>
 </body>
-
 </html>

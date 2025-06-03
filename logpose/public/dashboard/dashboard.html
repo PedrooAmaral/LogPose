@@ -8,21 +8,29 @@
   <link rel="stylesheet" href="../css/dashboard.css">
   <link rel="stylesheet" href="../css/estilo.css">
   <link rel="icon" href="../assets/icon/gomu_icon-removebg-preview.png">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
   <div class="dashboard-container">
     <button class="btn-sair" onclick="window.location.href='../index.html'">Sair</button>
     <div class="logo-titulo">
-    <img src="../assets/icon/gomu_icon-removebg-preview.png" alt="Logo Log Pose">
-    <h1 class="titulo-logpose">LogPose</h1>
+      <img src="../assets/icon/gomu_icon-removebg-preview.png" alt="Logo Log Pose">
+      <h1 class="titulo-logpose">LogPose</h1>
     </div>
 
     <div class="kpi-container">
       <div class="kpi-card" id="cardUsuarios">
         <h2>Total de Usuários Cadastrados</h2>
         <p class="kpi-valor" id="totalUsuarios">42</p>
+      </div>
+      <div class="kpi-card">
+        <h2>Questão</h2>
+        <select id="selectQuestao" onchange="atualizarQuestaoMaisFacilOuDificil()">
+          <option value="mais_dificil">Mais Difícil</option>
+          <option value="mais_facil">Mais Fácil</option>
+        </select>
+        <p id="textoQuestao" class="kpi-valor">Carregando...</p>
       </div>
     </div>
 
@@ -54,14 +62,8 @@
       options: {
         responsive: false,
         plugins: {
-          legend: {
-            labels: {
-              color: '#fff'
-            }
-          },
-          title: {
-            display: false
-          }
+          legend: { labels: { color: '#fff' } },
+          title: { display: false }
         }
       }
     });
@@ -72,56 +74,52 @@
       data: {
         labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'Q8', 'Q9', 'Q10'],
         datasets: [
-          {
-            label: 'Acertos',
-            data: [7, 8, 6, 9, 5, 8, 9, 6, 7, 9],
-            backgroundColor: '#00d5ff'
-          },
-          {
-            label: 'Erros',
-            data: [3, 2, 4, 1, 5, 2, 1, 4, 3, 1],
-            backgroundColor: '#d6006e'
-          }
+          { label: 'Acertos', data: [7, 8, 6, 9, 5, 8, 9, 6, 7, 9], backgroundColor: '#00d5ff' },
+          { label: 'Erros', data: [3, 2, 4, 1, 5, 2, 1, 4, 3, 1], backgroundColor: '#d6006e' }
         ]
       },
       options: {
         responsive: false,
         scales: {
-          x: {
-            ticks: {
-              color: '#fff'
-            }
-          },
-          y: {
-            ticks: {
-              color: '#fff'
-            }
-          }
+          x: { ticks: { color: '#fff' } },
+          y: { ticks: { color: '#fff' } }
         },
         plugins: {
-          legend: {
-            labels: {
-              color: '#fff'
-            }
-          },
-          title: {
-            display: false
-          }
+          legend: { labels: { color: '#fff' } },
+          title: { display: false }
         }
       }
     });
+
     window.addEventListener('DOMContentLoaded', () => {
-  fetch("http://localhost:3334/usuarios/count")
+      fetch("http://localhost:3334/usuarios/count")
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("totalUsuarios").innerText = data.total;
+        })
+        .catch(err => {
+          console.error("Erro ao buscar total de usuários:", err);
+          document.getElementById("totalUsuarios").innerText = "Erro";
+        });
+
+      atualizarQuestaoMaisFacilOuDificil();
+    });
+
+    function atualizarQuestaoMaisFacilOuDificil() {
+  const tipo = document.getElementById("selectQuestao").value;
+
+  fetch("http://localhost:3334/api/quiz/dificuldade")
     .then(res => res.json())
     .then(data => {
-      document.getElementById("totalUsuarios").innerText = data.total;
+      let questao = tipo === "mais_facil" ? data.maisFacil : data.maisDificil;
+      document.getElementById("textoQuestao").innerText = 
+        `Q${questao.questao} - ${questao.taxa_acerto}% de acerto`;
     })
     .catch(err => {
-      console.error("Erro ao buscar total de usuários:", err);
-      document.getElementById("totalUsuarios").innerText = "Erro";
+      console.error("Erro ao buscar questão:", err);
+      document.getElementById("textoQuestao").innerText = "Erro";
     });
-});
-
+}
   </script>
 </body>
 </html>

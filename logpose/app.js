@@ -27,6 +27,10 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/usuarios", usuarioRouter);
 
+const quizRouter = require("./src/routes/quiz");
+app.use("/api/quiz", quizRouter);
+
+
 app.listen(PORTA_APP, function () {
   console.log(`Servidor rodando em http://${HOST_APP}:${PORTA_APP}`);
 });
