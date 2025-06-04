@@ -1,11 +1,6 @@
-/* ========================== */
-/*  IMPORTAÇÃO DE FONTES       */
-/* ========================== */
+
 @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;700;900&display=swap');
 
-/* ========================== */
-/*  ESTILO GERAL DA DASHBOARD */
-/* ========================== */
 body {
   margin: 0;
   padding: 0;
@@ -54,12 +49,12 @@ body {
 .kpi-container {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  gap: 40px;
+  align-items: stretch;
+  gap: 20px;
   margin: 40px auto;
+  max-width: 900px;
   flex-wrap: wrap;
 }
-
 
 .kpi-card {
   background-color: #002b5c;
@@ -68,8 +63,18 @@ body {
   text-align: center;
   color: white;
   min-width: 280px;
-  flex: 1;
+  flex: 1 1 40%;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
 }
+
+.kpi-card select {
+  margin-top: 10px;
+  padding: 5px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+}
+
 
 
 .kpi-valor {

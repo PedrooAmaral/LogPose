@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,8 +8,8 @@
   <link rel="stylesheet" href="../css/estilo.css">
   <link rel="icon" href="../assets/icon/gomu_icon-removebg-preview.png">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 </head>
-
 <body>
   <div class="dashboard-container">
     <button class="btn-sair" onclick="window.location.href='../index.html'">Sair</button>
@@ -30,7 +29,7 @@
           <option value="mais_dificil">Mais Difícil</option>
           <option value="mais_facil">Mais Fácil</option>
         </select>
-        <p id="textoQuestao" class="kpi-valor">Carregando...</p>
+        <p id="textoQuestao" class="kpi-valor" style="margin-top: 10px;">Carregando...</p>
       </div>
     </div>
 
@@ -48,12 +47,14 @@
 
   <script>
     const ctxPizza = document.getElementById('graficoPizza').getContext('2d');
+    const ctxBar = document.getElementById('graficoBarras').getContext('2d');
+
     const graficoPizza = new Chart(ctxPizza, {
       type: 'pie',
       data: {
         labels: ['Acertos', 'Erros'],
         datasets: [{
-          data: [70, 30],
+          data: [0, 0],
           backgroundColor: ['#00d5ff', '#d6006e'],
           borderColor: ['#fff', '#fff'],
           borderWidth: 2
@@ -63,19 +64,26 @@
         responsive: false,
         plugins: {
           legend: { labels: { color: '#fff' } },
+          datalabels: {
+            color: '#fff',
+            formatter: (value, ctx) => {
+              const total = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+              return total ? `${((value / total) * 100).toFixed(1)}%` : '0%';
+            }
+          },
           title: { display: false }
         }
-      }
+      },
+      plugins: [ChartDataLabels]
     });
 
-    const ctxBar = document.getElementById('graficoBarras').getContext('2d');
     const graficoBarras = new Chart(ctxBar, {
       type: 'bar',
       data: {
-        labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'Q8', 'Q9', 'Q10'],
+        labels: [],
         datasets: [
-          { label: 'Acertos', data: [7, 8, 6, 9, 5, 8, 9, 6, 7, 9], backgroundColor: '#00d5ff' },
-          { label: 'Erros', data: [3, 2, 4, 1, 5, 2, 1, 4, 3, 1], backgroundColor: '#d6006e' }
+          { label: 'Acertos', data: [], backgroundColor: '#00d5ff' },
+          { label: 'Erros', data: [], backgroundColor: '#d6006e' }
         ]
       },
       options: {
@@ -103,23 +111,46 @@
         });
 
       atualizarQuestaoMaisFacilOuDificil();
+      carregarDadosGraficos();
     });
 
     function atualizarQuestaoMaisFacilOuDificil() {
-  const tipo = document.getElementById("selectQuestao").value;
+      const tipo = document.getElementById("selectQuestao").value;
+      fetch("http://localhost:3334/api/quiz/dificuldade")
+        .then(res => res.json())
+        .then(data => {
+          let questao = tipo === "mais_facil" ? data.maisFacil : data.maisDificil;
+          document.getElementById("textoQuestao").innerText = `Q${questao.questao} - ${questao.taxa_acerto}% de acerto`;
+        })
+        .catch(err => {
+          console.error("Erro ao buscar questão:", err);
+          document.getElementById("textoQuestao").innerText = "Erro";
+        });
+    }
 
-  fetch("http://localhost:3334/api/quiz/dificuldade")
-    .then(res => res.json())
-    .then(data => {
-      let questao = tipo === "mais_facil" ? data.maisFacil : data.maisDificil;
-      document.getElementById("textoQuestao").innerText = 
-        `Q${questao.questao} - ${questao.taxa_acerto}% de acerto`;
-    })
-    .catch(err => {
-      console.error("Erro ao buscar questão:", err);
-      document.getElementById("textoQuestao").innerText = "Erro";
-    });
-}
+    function carregarDadosGraficos() {
+      fetch("http://localhost:3334/api/quiz/resumo-por-questao")
+        .then(res => res.json())
+        .then(data => {
+          const labels = data.map(q => `Q${q.questao}`);
+          const acertos = data.map(q => Number(q.acertos));
+          const erros = data.map(q => Number(q.erros));
+
+
+
+          graficoBarras.data.labels = labels;
+          graficoBarras.data.datasets[0].data = acertos;
+          graficoBarras.data.datasets[1].data = erros;
+          graficoBarras.update();
+
+          const totalAcertos = acertos.reduce((a, b) => a + b, 0);
+          const totalErros = erros.reduce((a, b) => a + b, 0);
+
+          graficoPizza.data.datasets[0].data = [totalAcertos, totalErros];
+          graficoPizza.update();
+        })
+        .catch(err => console.error("Erro ao carregar dados dos gráficos:", err));
+    }
   </script>
 </body>
 </html>

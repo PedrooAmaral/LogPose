@@ -48,6 +48,28 @@ router.get("/dificuldade", async (req, res) => {
   }
 });
 
+router.get("/resumo-por-questao", async (req, res) => {
+  try {
+    const [result] = await pool.query(`
+      SELECT 
+        questao,
+        SUM(acertou = 1) AS acertos,
+        SUM(acertou = 0) AS erros,
+        COUNT(*) AS total,
+        ROUND(SUM(acertou = 1) / COUNT(*) * 100, 2) AS percentual_acertos,
+        ROUND(SUM(acertou = 0) / COUNT(*) * 100, 2) AS percentual_erros
+      FROM resposta
+      GROUP BY questao
+      ORDER BY questao ASC
+    `);
+
+    res.status(200).json(result);
+  } catch (erro) {
+    console.error("Erro ao buscar resumo por questão:", erro);
+    res.status(500).json({ erro: "Erro ao buscar resumo por questão." });
+  }
+});
+
 router.post("/responder", async (req, res) => {
   const { fk_usuario, questao, acertou } = req.body;
 
