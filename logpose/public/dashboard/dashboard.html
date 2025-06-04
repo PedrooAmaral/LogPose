@@ -120,7 +120,7 @@
         .then(res => res.json())
         .then(data => {
           let questao = tipo === "mais_facil" ? data.maisFacil : data.maisDificil;
-          document.getElementById("textoQuestao").innerText = `Q${questao.questao} - ${questao.taxa_acerto}% de acerto`;
+          document.getElementById("textoQuestao").innerText = `Questão${ questao.questao} - ${questao.taxa_acerto}% de acerto`;
         })
         .catch(err => {
           console.error("Erro ao buscar questão:", err);
@@ -147,7 +147,7 @@
           const totalErros = erros.reduce((a, b) => a + b, 0);
 
           graficoPizza.data.datasets[0].data = [totalAcertos, totalErros];
-          graficoPizza.update();
+          graficoPizza.update(); 
         })
         .catch(err => console.error("Erro ao carregar dados dos gráficos:", err));
     }
